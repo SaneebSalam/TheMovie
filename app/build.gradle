@@ -34,11 +34,11 @@ dependencies {
     // gson
     compile 'com.google.code.gson:gson:2.8.0'
 
-    //retrofit
+    //retrofit2
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 
-    //image loader
+    //Fresco image loader
     implementation 'com.facebook.fresco:fresco:1.8.1'
 
     // Search view
