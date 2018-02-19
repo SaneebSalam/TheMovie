@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "428147196520",
+    "firebase_url": "https://the-movie-dff17.firebaseio.com",
+    "project_id": "the-movie-dff17",
+    "storage_bucket": "the-movie-dff17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428147196520:android:b941823fa67309aa",
+        "android_client_info": {
+          "package_name": "com.saneebsalam.www.themovie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "428147196520-eol58rdema1af5eo3m6ng0ipmntonsmc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvR32HXyek46QqmzfyTYEf1x_FjKcUnWk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
