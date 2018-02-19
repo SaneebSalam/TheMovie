@@ -14,16 +14,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.saneebsalam.www.themovie.R;
+import com.saneebsalam.www.themovie.Room.AppDatabase;
 import com.saneebsalam.www.themovie.adapter.MoviesAdapter;
 import com.saneebsalam.www.themovie.model.MovieResponse_POJO;
 import com.saneebsalam.www.themovie.model.Movie_POJO;
@@ -47,6 +46,7 @@ public class MainActivity extends AppCompatActivity
     MaterialSearchView searchView;
     MoviesAdapter moviesAdapter;
     ProgressBar progress;
+    AppDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +61,12 @@ public class MainActivity extends AppCompatActivity
                 .debuggable(true)
                 .build();
         Fabric.with(fabric);
+
+        //Room DB
+        mDb = AppDatabase.getAppDatabase(this); // Get an Instance of Database class
+
+        List<Movie_POJO> movieslistDB = mDb.moviesDao().getAll();
+        System.out.println("list: " + movieslistDB.size());
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -84,9 +90,19 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(@NonNull Call<MovieResponse_POJO> call, @NonNull Response<MovieResponse_POJO> response) {
                 progress.setVisibility(View.GONE);
-                List<Movie_POJO> movies = response.body().getResults();
+
+                //Delete DB
+                mDb.moviesDao().DeleteTable();
+
+                List<Movie_POJO> movieslist = response.body().getResults();
+
+                for (int i = 0; i < movieslist.size(); i++) {
+                    populateWithTestData(mDb, movieslist.get(i).getId(), movieslist.get(i).getTitle(), movieslist.get(i).getBackdropPath());
+                }
+
+
                 recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-                moviesAdapter = new MoviesAdapter(movies, R.layout.list_item_movie, getApplicationContext());
+                moviesAdapter = new MoviesAdapter(movieslist, R.layout.list_item_movie, getApplicationContext());
                 recyclerView.setAdapter(moviesAdapter);
             }
 
@@ -94,8 +110,13 @@ public class MainActivity extends AppCompatActivity
             public void onFailure(@NonNull Call<MovieResponse_POJO> call, @NonNull Throwable t) {
                 // Log error here since request failed
                 progress.setVisibility(View.GONE);
-                Toast.makeText(MainActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, t.toString());
+
+                //Data from DB
+                List<Movie_POJO> movieslistDB = mDb.moviesDao().getAll();
+
+                recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+                moviesAdapter = new MoviesAdapter(movieslistDB, R.layout.list_item_movie, getApplicationContext());
+                recyclerView.setAdapter(moviesAdapter);
             }
         });
 
@@ -183,5 +204,18 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private static Movie_POJO addUser(final AppDatabase db, Movie_POJO user) {
+        db.moviesDao().insertAll(user);
+        return user;
+    }
+
+    private static void populateWithTestData(AppDatabase db, Integer id, String title, String backdropPath) {
+        Movie_POJO user = new Movie_POJO(id, title, backdropPath);
+        user.setId(id);
+        user.setTitle(title);
+        user.setBackdropPath(backdropPath);
+        addUser(db, user);
     }
 }
