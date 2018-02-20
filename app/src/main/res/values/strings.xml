@@ -1,7 +1,11 @@
 <resources>
+
+    <string name="facebook_app_id">1421984184597218</string>
+    <string name="fb_login_protocol_scheme">fb1421984184597218</string>
     <string name="app_name">The Movie</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="overview">Overview</string>
+    <string name="continue_as_guest">Continue as Guest</string>
 </resources>

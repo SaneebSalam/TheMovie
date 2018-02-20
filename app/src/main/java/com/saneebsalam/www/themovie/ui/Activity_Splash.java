@@ -9,6 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.saneebsalam.www.themovie.MyApplication;
 import com.saneebsalam.www.themovie.R;
 
 /**
@@ -35,8 +36,13 @@ public class Activity_Splash extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(Activity_Splash.this, MainActivity.class));
-                finish();
+                if (!MyApplication.getsharedprefBoolean("IsLogin")) {
+                    startActivity(new Intent(Activity_Splash.this, Activity_Login.class));
+                    finish();
+                } else {
+                    startActivity(new Intent(Activity_Splash.this, MainActivity.class));
+                    finish();
+                }
             }
         }, 3000);
     }

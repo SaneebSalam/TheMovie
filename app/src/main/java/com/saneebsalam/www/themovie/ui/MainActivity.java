@@ -1,6 +1,7 @@
 package com.saneebsalam.www.themovie.ui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
@@ -18,9 +19,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.saneebsalam.www.themovie.MyApplication;
 import com.saneebsalam.www.themovie.R;
 import com.saneebsalam.www.themovie.Room.AppDatabase;
 import com.saneebsalam.www.themovie.adapter.MoviesAdapter;
@@ -47,6 +51,9 @@ public class MainActivity extends AppCompatActivity
     MoviesAdapter moviesAdapter;
     ProgressBar progress;
     AppDatabase mDb;
+    View hView;
+    TextView nav_user, nav_email;
+    SimpleDraweeView profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +68,7 @@ public class MainActivity extends AppCompatActivity
                 .debuggable(true)
                 .build();
         Fabric.with(fabric);
+
 
         //Room DB
         mDb = AppDatabase.getAppDatabase(this); // Get an Instance of Database class
@@ -149,6 +157,23 @@ public class MainActivity extends AppCompatActivity
                 //Do some magic
             }
         });
+
+        //Navigation header
+        hView = navigationView.getHeaderView(0);
+
+        nav_user = hView.findViewById(R.id.name);
+        nav_email = hView.findViewById(R.id.email);
+        profile = hView.findViewById(R.id.profile);
+
+        nav_user.setText(MyApplication.getsharedprefString("Name"));
+        nav_email.setText(MyApplication.getsharedprefString("Email"));
+//        setavatar();
+        if (!MyApplication.getsharedprefString("Profile").isEmpty()) {
+            Uri uri = Uri.parse(MyApplication.getsharedprefString("Profile"));
+            profile.setImageURI(uri);
+        } else
+            profile.setImageResource(R.drawable.ic_launcher);
+
     }
 
     @Override
