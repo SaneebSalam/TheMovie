@@ -42,7 +42,7 @@ public class Activity_Login extends AppCompatActivity {
         setContentView(R.layout.layout_login);
 
         if (getSupportActionBar() != null)
-            getSupportActionBar().setTitle("Login");
+            getSupportActionBar().hide();
 
         callbackManager = CallbackManager.Factory.create();
 

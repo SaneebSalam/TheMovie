@@ -73,9 +73,8 @@ public class MainActivity extends AppCompatActivity
         //Room DB
         mDb = AppDatabase.getAppDatabase(this); // Get an Instance of Database class
 
-        List<Movie_POJO> movieslistDB = mDb.moviesDao().getAll();
-        System.out.println("list: " + movieslistDB.size());
 
+        //Drawer setup
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -88,8 +87,26 @@ public class MainActivity extends AppCompatActivity
         recyclerView = findViewById(R.id.recycleview);
         progress = findViewById(R.id.progress);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //Navigation header
+        hView = navigationView.getHeaderView(0);
 
+        nav_user = hView.findViewById(R.id.name);
+        nav_email = hView.findViewById(R.id.email);
+        profile = hView.findViewById(R.id.profile);
+
+        nav_user.setText(MyApplication.getsharedprefString("Name"));
+        nav_email.setText(MyApplication.getsharedprefString("Email"));
+//        setavatar();
+        if (!MyApplication.getsharedprefString("Profile").isEmpty()) {
+            Uri uri = Uri.parse(MyApplication.getsharedprefString("Profile"));
+            profile.setImageURI(uri);
+        } else
+            profile.setImageResource(R.drawable.ic_launcher);
+
+
+
+        //Getting getTopRatedMovies
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
@@ -128,6 +145,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //Search view
         searchView = findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
@@ -157,22 +175,6 @@ public class MainActivity extends AppCompatActivity
                 //Do some magic
             }
         });
-
-        //Navigation header
-        hView = navigationView.getHeaderView(0);
-
-        nav_user = hView.findViewById(R.id.name);
-        nav_email = hView.findViewById(R.id.email);
-        profile = hView.findViewById(R.id.profile);
-
-        nav_user.setText(MyApplication.getsharedprefString("Name"));
-        nav_email.setText(MyApplication.getsharedprefString("Email"));
-//        setavatar();
-        if (!MyApplication.getsharedprefString("Profile").isEmpty()) {
-            Uri uri = Uri.parse(MyApplication.getsharedprefString("Profile"));
-            profile.setImageURI(uri);
-        } else
-            profile.setImageResource(R.drawable.ic_launcher);
 
     }
 

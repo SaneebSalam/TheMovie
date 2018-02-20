@@ -4,6 +4,9 @@ import android.app.Application;
 import android.content.SharedPreferences;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.saneebsalam.www.themovie.dagger2.component.ApplicationComponent;
+import com.saneebsalam.www.themovie.dagger2.component.ApplicationModule;
+import com.saneebsalam.www.themovie.dagger2.component.DaggerApplicationComponent;
 
 /**
  * Created by Saneeb Salam
@@ -14,12 +17,20 @@ public class MyApplication extends Application {
 
     public static SharedPreferences preferences;
     public static SharedPreferences.Editor editor;
+    protected ApplicationComponent applicationComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
         Fresco.initialize(this);
         preferences = getSharedPreferences("TheMovie", 0);
+
+
+        applicationComponent = DaggerApplicationComponent
+                .builder()
+                .applicationModule(new ApplicationModule(this))
+                .build();
+        applicationComponent.inject(this);
     }
 
     // Shared preferances
