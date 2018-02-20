@@ -52,6 +52,7 @@ public class Activity_Now_Playing extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //Getting getLatestMovies
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 

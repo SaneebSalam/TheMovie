@@ -52,6 +52,7 @@ public class Activity_Upcomings extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //Getting getUpcomingMovies
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 

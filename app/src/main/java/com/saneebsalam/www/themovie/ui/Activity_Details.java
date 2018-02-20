@@ -53,13 +53,9 @@ public class Activity_Details extends AppCompatActivity {
 
         desc = findViewById(R.id.desc);
         longdesc = findViewById(R.id.longdesc);
-
-//        desc.setText(getResources().getStringArray(R.array.digitalmarketing_content)[postion]);
-//        longdesc.setText(getResources().getStringArray(R.array.digitalmarketing_content_desc)[postion]);
-
         image = findViewById(R.id.image);
 
-
+        //Getting getMovieDetails
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 

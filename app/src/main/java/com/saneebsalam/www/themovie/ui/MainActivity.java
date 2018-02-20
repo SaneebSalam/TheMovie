@@ -96,14 +96,13 @@ public class MainActivity extends AppCompatActivity
 
         nav_user.setText(MyApplication.getsharedprefString("Name"));
         nav_email.setText(MyApplication.getsharedprefString("Email"));
+
 //        setavatar();
         if (!MyApplication.getsharedprefString("Profile").isEmpty()) {
             Uri uri = Uri.parse(MyApplication.getsharedprefString("Profile"));
             profile.setImageURI(uri);
         } else
             profile.setImageResource(R.drawable.ic_launcher);
-
-
 
         //Getting getTopRatedMovies
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -175,7 +174,6 @@ public class MainActivity extends AppCompatActivity
                 //Do some magic
             }
         });
-
     }
 
     @Override

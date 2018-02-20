@@ -52,6 +52,7 @@ public class Activity_Popular extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //Getting getPopularMovies
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
